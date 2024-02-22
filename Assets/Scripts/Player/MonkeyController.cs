@@ -34,6 +34,14 @@ namespace ServiceLocator.Player
             if (CanAttackBloon(bloon.GetBloonType()))
                 bloonsInRange.Add(bloon);
         }
+        public void UpdateMonkey()
+        {
+            if(bloonsInRange.Count > 0)
+            {
+                RotateTowardsTarget(bloonsInRange[0]);
+                ShootAtTarget(bloonsInRange[0]);
+            }
+        }
 
         public void BloonExitedRange(BloonController bloon)
         {
