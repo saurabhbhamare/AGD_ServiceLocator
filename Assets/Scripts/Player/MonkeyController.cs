@@ -6,7 +6,7 @@ using ServiceLocator.Sound;
 
 namespace ServiceLocator.Player
 {
-    public class MonkeyController
+    public class MonkeyController 
     {
         private MonkeyView monkeyView;
         private MonkeyScriptableObject monkeyScriptableObject;
@@ -68,7 +68,7 @@ namespace ServiceLocator.Player
                 ProjectileController projectile = projectilePool.GetProjectile(monkeyScriptableObject.projectileType);
                 projectile.SetPosition(monkeyView.transform.position);
                 projectile.SetTarget(targetBloon);
-                SoundService.Instance.PlaySoundEffects(Sound.SoundType.MonkeyShoot);
+                GameService.Instance.soundService.PlaySoundEffects(Sound.SoundType.MonkeyShoot);
                 ResetAttackTimer();
             }
         }
