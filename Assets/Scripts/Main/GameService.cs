@@ -17,9 +17,10 @@ namespace ServiceLocator.Main
         public WaveService WaveService { get; private set; }
         public SoundService SoundService { get; private set; }
         public PlayerService PlayerService { get; private set; }
+        [SerializeField] private UIService UIService;
 
-        [SerializeField] private UIService uiService;
-        public UIService UIService => uiService;
+        //[SerializeField] private UIService uiService;
+        //public UIService UIService => uiService;
 
 
         // Scriptable Objects:
@@ -40,7 +41,6 @@ namespace ServiceLocator.Main
         private void CreateServices()
         {
             EventService = new EventService();
-            UIService.SubscribeToEvents();
             MapService = new MapService(mapScriptableObject);
             WaveService = new WaveService(waveScriptableObject);
             SoundService = new SoundService(soundScriptableObject, SFXSource, BGSource);
@@ -49,6 +49,9 @@ namespace ServiceLocator.Main
         private void InjectDependencies()
         {
             PlayerService.Init(UIService,MapService,SoundService);
+            UIService.Init(EventService,WaveService);
+            WaveService.Init(UIService,MapService,SoundService,EventService);
+            MapService.Init(EventService);
         }
         private void Update()
         {
