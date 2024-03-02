@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using ServiceLocator.Utilities;
-
+using ServiceLocator.Player;
 /*  This script demonstrates the implementation of Object Pool design pattern.
  *  If you're interested in learning about Object Pooling, you can find
  *  a dedicated course on Outscal's website.
@@ -12,6 +12,7 @@ namespace ServiceLocator.Player.Projectile
 {
     public class ProjectilePool : GenericObjectPool<ProjectileController>
     {
+        private PlayerService playerService;
         private ProjectileView projectilePrefab;
         private List<ProjectileScriptableObject> projectileScriptableObjects;
         private Transform projectileContainer;
@@ -31,6 +32,6 @@ namespace ServiceLocator.Player.Projectile
             return projectile;
         }
 
-        protected override ProjectileController CreateItem() => new ProjectileController(projectilePrefab, projectileContainer);
+        protected override ProjectileController CreateItem() => new ProjectileController(projectilePrefab, projectileContainer,playerService);
     }
 }

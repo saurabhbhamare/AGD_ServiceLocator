@@ -9,14 +9,15 @@ using ServiceLocator.UI;
 
 namespace ServiceLocator.Main
 {
-    public class GameService : GenericMonoSingleton<GameService>
+    public class GameService : MonoBehaviour
     {
-        // Services:
+        // Services 
         public EventService EventService { get; private set; }
-        public MapService MapService { get; private set; }
+        public MapService MapService    { get; private set; }
         public WaveService WaveService { get; private set; }
         public SoundService SoundService { get; private set; }
-        public PlayerService PlayerService { get; private set; }
+        public PlayerService PlayerService  { get; private set; }
+
         [SerializeField] private UIService UIService;
 
         //[SerializeField] private UIService uiService;
@@ -50,7 +51,7 @@ namespace ServiceLocator.Main
         {
             PlayerService.Init(UIService,MapService,SoundService);
             UIService.Init(EventService,WaveService);
-            WaveService.Init(UIService,MapService,SoundService,EventService);
+            WaveService.Init(UIService,MapService,SoundService,EventService,PlayerService);
             MapService.Init(EventService);
         }
         private void Update()

@@ -8,6 +8,7 @@ namespace ServiceLocator.Sound
         private SoundScriptableObject soundScriptableObject;
         private AudioSource audioEffects;
         private AudioSource backgroundMusic;
+        
 
         public SoundService(SoundScriptableObject soundScriptableObject, AudioSource audioEffectSource, AudioSource bgMusicSource)
         {
