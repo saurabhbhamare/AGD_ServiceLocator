@@ -6,14 +6,13 @@ using ServiceLocator.Main;
 using UnityEngine.SceneManagement;
 using ServiceLocator.Events;
 using ServiceLocator.Wave;
+using ServiceLocator.Player;
 
 namespace ServiceLocator.UI
 {
     public class UIService : MonoBehaviour
     {
-        //scripts dep
-        private EventService eventService;
-        private WaveService waveService;
+       
            
         [Header("Gameplay Panel")]
         [SerializeField] private GameObject gameplayPanel;
@@ -26,6 +25,7 @@ namespace ServiceLocator.UI
         [Header("Level Selection Panel")]
         [SerializeField] private GameObject levelSelectionPanel;
         [SerializeField] private Button Map1Button;
+        [SerializeField] private MapButton mapButton;
 
         [Header("Monkey Selection UI")]
         private MonkeySelectionUIController monkeySelectionController;
@@ -40,12 +40,14 @@ namespace ServiceLocator.UI
         [SerializeField] private Button playAgainButton;
         [SerializeField] private Button quitButton;
 
+        //scripts dep
+        private EventService eventService;
+        private WaveService waveService;
+        private PlayerService playerService;
+
         private void Start()
         {
-            monkeySelectionController = new MonkeySelectionUIController(cellContainer, monkeyCellPrefab, monkeyCellScriptableObjects);
-            MonkeySelectionPanel.SetActive(false);
-            monkeySelectionController.SetActive(false);
-
+          
             gameplayPanel.SetActive(false);
             levelSelectionPanel.SetActive(true);
             gameEndPanel.SetActive(false);
@@ -54,11 +56,21 @@ namespace ServiceLocator.UI
             quitButton.onClick.AddListener(OnQuitButtonClicked);
             playAgainButton.onClick.AddListener(OnPlayAgainButtonClicked);
         }
-        public void Init(EventService eventService, WaveService waveService )
+        public void Init(EventService eventService, WaveService waveService,PlayerService playerService )
         {
+            this.playerService = playerService;
             this.eventService = eventService;
             this.waveService = waveService;
+            mapButton.Init(eventService);
             SubscribeToEvents();
+            InitializeMonkeySelectionUI(playerService);
+        }
+        private void InitializeMonkeySelectionUI(PlayerService playerService)
+        {
+            monkeySelectionController = new MonkeySelectionUIController(cellContainer, monkeyCellPrefab, monkeyCellScriptableObjects, playerService);
+            MonkeySelectionPanel.SetActive(false);
+            monkeySelectionController.SetActive(false);
+
         }
         public void SubscribeToEvents() => eventService.OnMapSelected.AddListener(OnMapSelected);
        

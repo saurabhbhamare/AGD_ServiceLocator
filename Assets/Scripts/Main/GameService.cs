@@ -12,11 +12,11 @@ namespace ServiceLocator.Main
     public class GameService : MonoBehaviour
     {
         // Services 
-        public EventService EventService { get; private set; }
-        public MapService MapService    { get; private set; }
-        public WaveService WaveService { get; private set; }
-        public SoundService SoundService { get; private set; }
-        public PlayerService PlayerService  { get; private set; }
+        private EventService EventService;
+        private MapService MapService;
+        private WaveService WaveService;
+        private SoundService SoundService;
+        private PlayerService PlayerService;
 
         [SerializeField] private UIService UIService;
 
@@ -50,9 +50,9 @@ namespace ServiceLocator.Main
         private void InjectDependencies()
         {
             PlayerService.Init(UIService,MapService,SoundService);
-            UIService.Init(EventService,WaveService);
             WaveService.Init(UIService,MapService,SoundService,EventService,PlayerService);
             MapService.Init(EventService);
+            UIService.Init(EventService,WaveService,PlayerService);
         }
         private void Update()
         {
